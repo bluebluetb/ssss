@@ -1,0 +1,20 @@
+适合windows和linux环境运行，建议linux环境，因为windows环境搭建相对复杂点儿，windows下建议安装pycharm社区版，方便看代码和运行。
+1、安装requirements.txt中安装包，配置好yolov7运行环境，很多博客可参考；
+2、模型文件在runs/train/文件夹下，exp*文件夹，exp中包含模型、训练日志、以及各种评估指标曲线，供参考使用。
+3、训练时配置文件.yaml在data文件夹下，yaml文件主要是包含导入数据集路径、类别信息，供参考，如果训练自己数据集，需要先修改成自己数据集路径。
+4、训练的yolov7模型，使用的yolov7-tiny.yaml、hyp.scratch.custom.yaml
+
+【本人训练模型命令如下】
+多显卡训练
+如：python -m torch.distributed.launch --nproc_per_node 4 --master_port 9527 train.py --workers 8 --device 0,1,2,3 --sync-bn --batch-size 128 --data data/person_vehicle_lift.yaml --img 640 640 --cfg cfg/training/yolov7-tiny.yaml --weights 'yolov7.pt' --name yolov7-custom --hyp data/hyp.scratch.p5.yaml
+
+单显卡训练
+如：python train.py --workers 8 --device 0 --batch-size 32 --data data/person_vehicle_lift.yaml --img 640 640 --cfg cfg/training/yolov7-tiny.yaml --weights 'yolov7.pt' --name yolov7-custom --hyp data/hyp.scratch.custom.yaml
+
+【检测运行命令】
+python detect.py --weights yolov7.pt --conf 0.25 --img-size 640 --source inference/images/horses.jpg
+
+
+
+
+
